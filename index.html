@@ -52,6 +52,17 @@
         .gate-input { background-color: #242427; border: 1px solid #3f3f46; border-radius: 6px; color: #fff; padding: 14px 16px; font-size: 14px; outline: none; transition: border-color 0.2s; }
         .gate-input:focus { border-color: #a855f7; }
         .gate-btn { background-color: #a855f7; color: #fff; border: none; border-radius: 6px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; }
+                /* Top Navigation Header Utility Bar with Profile Node */
+        .top-navbar-grid { display: flex; align-items: center; justify-content: space-between; max-width: 800px; margin-bottom: 32px; gap: 20px; }
+        .profile-badge-anchor { display: flex; align-items: center; gap: 10px; background-color: #18181b; padding: 6px 14px; border-radius: 9999px; border: 1px solid #27272a; font-size: 13px; font-weight: 600; color: #fff; }
+        .profile-avatar-circle { width: 28px; height: 28px; background-color: #a855f7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; color: #fff; text-transform: uppercase; }
+        
+        /* Action Node Grid for Like and Downloads */
+        .track-actions-wrapper { display: flex; align-items: center; gap: 16px; }
+        .action-icon-node { background: none; border: none; font-size: 16px; cursor: pointer; color: #a1a1aa; transition: transform 0.1s ease, color 0.2s; padding: 4px; display: flex; align-items: center; justify-content: center; }
+        .action-icon-node:hover { color: #fff; transform: scale(1.15); }
+        .action-icon-node.active-liked { color: #ef4444 !important; }
+
         .gate-btn:hover { background-color: #9333ea; }
 
     </style>
