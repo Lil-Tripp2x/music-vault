@@ -3,95 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juice WRLD Vault Clone</title>
-    <script src="https://tailwindcss.com"></script>
+    <title>My Music Vault</title>
+    <style>
+        body { background-color: #121212; color: #e4e4e7; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .app-container { display: flex; height: calc(100vh - 90px); overflow: hidden; }
+        aside { width: 240px; background-color: #000; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+        .logo { color: #a855f7; font-weight: 900; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; }
+        nav { display: flex; flex-direction: column; gap: 16px; }
+        nav a { color: #a1a1aa; text-decoration: none; font-weight: 600; font-size: 14px; display: flex; items: center; gap: 12px; transition: color 0.2s; }
+        nav a:hover { color: #fff; }
+        main { flex: 1; background-color: #121212; overflow-y: auto; padding: 32px; box-sizing: border-box; }
+        .search-container { max-width: 800px; margin-bottom: 32px; }
+        #search-bar { width: 100%; background-color: #242424; color: #fff; border: none; border-radius: 9999px; padding: 12px 20px; box-sizing: border-box; font-size: 14px; outline: none; }
+        h2 { font-size: 20px; color: #fff; margin-bottom: 16px; font-weight: 700; }
+        .track-list { display: flex; flex-direction: column; gap: 8px; max-width: 800px; margin-bottom: 40px; }
+        .track-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background-color: #181818; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; }
+        .track-row:hover { background-color: #282828; }
+        .track-info { display: flex; align-items: center; gap: 12px; }
+        .track-art { width: 40px; height: 40px; background-color: #282828; border-radius: 4px; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .track-meta { overflow: hidden; }
+        .track-meta .title { font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-meta .era { font-size: 12px; color: #a1a1aa; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-time { font-size: 12px; color: #71717a; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 40px; }
+        .card { background-color: #181818; padding: 16px; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; box-sizing: border-box; }
+        .card:hover { background-color: #282828; }
+        .card-art { aspect-ratio: 1/1; background-color: #282828; border-radius: 4px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; overflow: hidden; }
+        .card-art img { width: 100%; height: 100%; object-fit: cover; }
+        .card-title { font-size: 14px; font-weight: 700; color: #fff; margin: 0 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-era { font-size: 12px; color: #a1a1aa; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        footer { height: 90px; background-color: #181818; border-top: 1px solid #27272a; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; box-sizing: border-box; }
+        .footer-left { display: flex; align-items: center; gap: 16px; width: 33%; min-width: 200px; }
+        #player-art { width: 56px; height: 56px; background-color: #282828; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+        #player-art img { width: 100%; height: 100%; object-fit: cover; }
+        .player-meta { overflow: hidden; }
+        #player-title { font-size: 14px; font-weight: 600; color: #fff; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #player-era { font-size: 12px; color: #a1a1aa; margin: 2px 0 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .footer-center { width: 33%; max-width: 600px; display: flex; flex-direction: column; align-items: center; }
+        audio { width: 100%; height: 32px; }
+        .footer-right { width: 33%; }
+        @media (max-width: 768px) { aside { display: none; } }
+    </style>
 </head>
-<body class="bg-[#121212] text-zinc-200 font-sans min-h-screen flex flex-col selection:bg-purple-500/30 selection:text-purple-200">
+<body>
 
-    <div class="flex flex-1 overflow-hidden h-[calc(100vh-90px)]">
+    <div class="app-container">
         <!-- Sidebar Navigation -->
-        <aside class="w-64 bg-black p-6 flex flex-col justify-between hidden md:flex">
-            <div class="space-y-6">
-                <div class="text-purple-500 font-black text-xl tracking-wider uppercase">JUICE WRLD VAULT</div>
-                <nav class="space-y-4 text-sm font-semibold text-zinc-400">
-                    <a href="#" class="flex items-center gap-3 text-white"><span class="text-lg">🏠</span> Home</a>
-                    <a href="#" class="flex items-center gap-3 hover:text-white transition"><span class="text-lg">📊</span> Charts</a>
-                    <a href="#" class="flex items-center gap-3 hover:text-white transition"><span class="text-lg">💨</span> Reminds</a>
-                </nav>
-                <div class="pt-4 border-t border-zinc-900">
-                    <div class="text-xs uppercase font-bold text-zinc-500 tracking-wider mb-3">Playlists</div>
-                    <a href="#" class="flex items-center gap-3 text-sm font-semibold text-zinc-400 hover:text-white transition"><span class="text-lg">❤️</span> Liked Songs</a>
-                </div>
-            </div>
+        <aside>
+            <div class="logo">MY MUSIC VAULT</div>
+            <nav>
+                <a href="#">🏠 Home</a>
+                <a href="#">📊 Charts</a>
+                <a href="#">💨 Reminds</a>
+            </nav>
         </aside>
 
         <!-- Main Dashboard Window Container -->
-        <main class="flex-1 bg-[#121212] overflow-y-auto p-6 md:p-8">
+        <main>
             <!-- Top Search Utility Bar -->
-            <div class="max-w-4xl mb-8">
-                <input type="text" id="search-bar" placeholder="Search songs, artists..." 
-                       class="w-full bg-[#242424] text-sm text-zinc-200 placeholder-zinc-500 rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search songs, eras...">
             </div>
 
             <!-- Horizontal Tracks Row Layout List -->
-            <section class="mb-10">
-                <h2 class="text-xl font-bold text-white mb-4">Recently Uploaded</h2>
-                <div id="recent-list" class="space-y-2 max-w-4xl">
-                    <!-- Loaded dynamically via javascript engine arrays -->
+            <section>
+                <h2>Recently Uploaded</h2>
+                <div id="recent-list" class="track-list">
+                    <!-- Dynamic entries -->
                 </div>
             </section>
 
-            <!-- Square Visual Image Display Component Cards Grid Container Grid Section -->
-            <section class="mb-10">
-                <h2 class="text-xl font-bold text-white mb-4">Unreleased Vault Tracks</h2>
-                <div id="unreleased-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    <!-- Dynamic grid elements injected dynamically here -->
+            <!-- Square Visual Image Cards Grid -->
+            <section>
+                <h2>Unreleased Tracks</h2>
+                <div id="unreleased-grid" class="grid-container">
+                    <!-- Dynamic entries -->
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Persistent Global Fixed Media Streaming Sticky Control Strip Footer Strip -->
-    <footer class="h-[90px] bg-[#181818] border-t border-zinc-900 px-6 flex items-center justify-between fixed bottom-0 left-0 right-0 z-50">
-        <div class="flex items-center gap-4 w-1/3">
-            <div id="player-art" class="w-14 h-14 bg-zinc-800 rounded shadow flex items-center justify-center text-xl overflow-hidden font-bold text-zinc-600">🧃</div>
-            <div class="truncate">
-                <h4 id="player-title" class="text-sm font-medium text-white truncate">No Track Playing</h4>
-                <p id="player-era" class="text-xs text-zinc-400 truncate">Select music to start streaming</p>
+    <!-- Persistent Global Fixed Media Player -->
+    <footer>
+        <div class="footer-left">
+            <div id="player-art">🎵</div>
+            <div class="player-meta">
+                <h4 id="player-title">No Track Playing</h4>
+                <p id="player-era">Select music to start streaming</p>
             </div>
         </div>
 
-        <div class="w-1/3 max-w-xl flex flex-col items-center gap-2">
-            <audio id="global-audio-engine" class="w-full h-8 accent-purple-500" controls></audio>
+        <div class="footer-center">
+            <audio id="global-audio-engine" controls></audio>
         </div>
         
-        <div class="w-1/3 flex justify-end"></div>
+        <div class="footer-right"></div>
     </footer>
 
     <script>
-        // PASTE YOUR CLOUDINARY MP3 LINKS DIRECTLY INSIDE THESE TRACK BLOCKS
+        // EDIT THIS DATABASE TO ADD YOUR SONGS AND CLOUDINARY LINKS
         const vaultDatabase = [
             {
                 id: "track_1",
-                title: "Compromised (v2) [Master & Edit]",
-                era: "Juice WRLD • Jul 25, 2026",
+                title: "My First Custom Song Title",
+                era: "2026 Session File",
                 length: "3:52",
                 sourceUrl: "https://soundhelix.com",
                 coverArtUrl: "https://unsplash.com"
             },
             {
                 id: "track_2",
-                title: "Put Me Down",
-                era: "By Juice WRLD",
+                title: "Unreleased Leak Track",
+                era: "Studio Demo",
                 length: "2:25",
-                sourceUrl: "https://soundhelix.com",
-                coverArtUrl: "https://unsplash.com"
-            },
-            {
-                id: "track_3",
-                title: "Bottom From Here",
-                era: "By Juice WRLD",
-                length: "3:49",
                 sourceUrl: "https://soundhelix.com",
                 coverArtUrl: "https://unsplash.com"
             }
@@ -110,33 +134,33 @@
             recentListContainer.innerHTML = '';
             unreleasedGridContainer.innerHTML = '';
 
-            // 1. Build List Rows
             songs.forEach(song => {
+                // Build List Row
                 const row = document.createElement('div');
-                row.className = "flex items-center justify-between p-2 hover:bg-[#282828] rounded cursor-pointer transition group";
+                row.className = "track-row";
                 row.onclick = () => initPlayback(song);
                 row.innerHTML = `
-                    <div class="flex items-center gap-3 truncate">
-                        <img src="${song.coverArtUrl}" class="w-10 h-10 object-cover rounded shadow">
-                        <div class="truncate">
-                            <div class="text-sm font-medium text-white group-hover:text-purple-400 truncate">${song.title}</div>
-                            <div class="text-xs text-zinc-400 truncate">${song.era}</div>
+                    <div class="track-info">
+                        <img src="${song.coverArtUrl}" class="track-art">
+                        <div class="track-meta">
+                            <div class="title">${song.title}</div>
+                            <div class="era">${song.era}</div>
                         </div>
                     </div>
-                    <div class="text-xs text-zinc-500 pr-2">${song.length}</div>
+                    <div class="track-time">${song.length}</div>
                 `;
                 recentListContainer.appendChild(row);
 
-                // 2. Build Square Cards
+                // Build Square Card
                 const card = document.createElement('div');
-                card.className = "bg-[#181818] p-4 rounded-md hover:bg-[#282828] transition cursor-pointer group shadow-lg";
+                card.className = "card";
                 card.onclick = () => initPlayback(song);
                 card.innerHTML = `
-                    <div class="relative aspect-square w-full mb-4 rounded-md overflow-hidden bg-zinc-800 shadow">
-                        <img src="${song.coverArtUrl}" class="w-full h-full object-cover">
+                    <div class="card-art">
+                        <img src="${song.coverArtUrl}">
                     </div>
-                    <h3 class="text-sm font-bold text-white truncate group-hover:text-purple-400 mb-1">${song.title}</h3>
-                    <p class="text-xs text-zinc-400 truncate">${song.era}</p>
+                    <h3 class="card-title">${song.title}</h3>
+                    <p class="card-era">${song.era}</p>
                 `;
                 unreleasedGridContainer.appendChild(card);
             });
@@ -146,7 +170,7 @@
             audioNode.src = song.sourceUrl;
             titleNode.textContent = song.title;
             eraNode.textContent = song.era;
-            artNode.innerHTML = `<img src="${song.coverArtUrl}" class="w-full h-full object-cover">`;
+            artNode.innerHTML = `<img src="${song.coverArtUrl}">`;
             audioNode.play();
         }
 
